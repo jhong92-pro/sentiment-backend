@@ -1,6 +1,18 @@
+from typing import List
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from collections import defaultdict
 
-def sentiment_score(sentence, strongly_positive_thres, strongly_negative_thres):
+
+def _initialize_dict():
+    return {
+        "Strongly Positive":0,
+        "Positive" : 0,
+        "Negative" : 0,
+        "Strongly Negative" : 0,
+        "Neutral" : 0
+    }
+
+def _sentiment_score(sentence, strongly_positive_thres, strongly_negative_thres):
 
     sid_obj = SentimentIntensityAnalyzer()
 
@@ -21,5 +33,11 @@ def sentiment_score(sentence, strongly_positive_thres, strongly_negative_thres):
     else :
         overall_sentiment = "Neutral"
   
-    return compound, overall_sentiment
+    return overall_sentiment
 
+def sentiment_list_score(sentence_list:List, strongly_positive_thres, strongly_negative_thres):
+    sentence_analysis_result = _initialize_dict()
+    for sentence in sentence_list:
+        feeling = _sentiment_score(sentence, strongly_positive_thres, strongly_negative_thres)
+        sentence_analysis_result[feeling]+=1
+    return sentence_analysis_result
