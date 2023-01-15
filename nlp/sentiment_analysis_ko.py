@@ -62,7 +62,7 @@ class BERTDatasetEval(Dataset):
         return (len(self.sentences))
 
 model = BERTClassifier(bertmodel,  dr_rate=0.5).to(device)
-model.load_state_dict(torch.load("./weights/model_state_dict16.pt"))
+model.load_state_dict(torch.load("./weights/model_state_dict16.pt",map_location ='cpu'))
 model.eval()
 torch.no_grad()
 
